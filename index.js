@@ -382,10 +382,17 @@ class Book {
 				ret.push("<li>");
 				if(title) {
 					if (path) {
+						let href = this.urlFor(path);
+						if (hexo.config.relative_link) {
+							href = pathFn.relative(pathFn.dirname(this.urlFor(page)), href);
+							if (!href) {
+								href = "./";
+							}
+						}
 						if (page === path && className) {
-							ret.push(`<a class="${encodeHtml(className)}" href="${encodeHtml(this.urlFor(path))}">`);
+							ret.push(`<a class="${encodeHtml(className)}" href="${encodeHtml(href)}">`);
 						} else {
-							ret.push(`<a href="${encodeHtml(this.urlFor(path))}">`);
+							ret.push(`<a href="${encodeHtml(href)}">`);
 						}
 					}
 					ret.push(encodeHtml(title));
