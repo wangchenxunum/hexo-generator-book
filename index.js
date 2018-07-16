@@ -444,7 +444,7 @@ function getBook(id, create) {
 	}
 }
 
-hexo.source.addProcessor('_book/:bookId/*path', function(file){
+hexo.source.addProcessor('_books/:bookId/*path', function(file){
 	let bookId = file.params.bookId;
 	if (bookId[0] == "." || bookId[1] == "_") {
 		return ;
