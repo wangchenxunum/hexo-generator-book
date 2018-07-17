@@ -1,6 +1,6 @@
 {
   "name": "hexo-generator-book",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A plugin enabling Hexo to generate ebooks",
   "main": "index.js",
   "scripts": {

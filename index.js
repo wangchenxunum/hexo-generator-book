@@ -204,16 +204,22 @@ class Book {
 		this.inited = true;
 		const README = this.pages.README || {};
 		const SUMMARY = this.pages.SUMMARY || {};
+		const INDEX = this.pages.index || {};
 
-		this.path			= urlFn.resolve((README.path || SUMMARY.path || this.id) + "/", "./");
-		this.url			= README.url			|| SUMMARY.url		|| urlFor(this.path, true);
-		this.title			= README.bookTitle		|| SUMMARY.bookTitle	;
-		this.subtitle		= README.subtitle		|| SUMMARY.subtitle		;
-		this.description	= README.description	|| SUMMARY.description	;
-		this.keywords		= README.keywords		|| SUMMARY.keywords		;
-		this.author			= README.author			|| SUMMARY.author		;
-		this.image			= README.image			|| SUMMARY.image		;
-		this.copyright		= README.copyright		|| SUMMARY.copyright	;
+		this.path			= urlFn.resolve((README.path || SUMMARY.path || INDEX.path || this.id) + "/", "./");
+		this.url			= README.url			|| SUMMARY.url			|| INDEX.url		|| urlFor(this.path, true);
+		this.title			= README.bookTitle		|| SUMMARY.bookTitle	|| INDEX.bookTitle		;
+		this.subtitle		= README.subtitle		|| SUMMARY.subtitle		|| INDEX.subtitle		;
+		this.description	= README.description	|| SUMMARY.description	|| INDEX.description	;
+		this.keywords		= README.keywords		|| SUMMARY.keywords		|| INDEX.keywords		;
+		this.author			= README.author			|| SUMMARY.author		|| INDEX.author			;
+		this.image			= README.image			|| SUMMARY.image		|| INDEX.image			;
+		this.copyright		= README.copyright		|| SUMMARY.copyright	|| INDEX.copyright		;
+
+		this.writing		= README.writing		|| SUMMARY.writing		|| INDEX.writing		;
+
+		this.git			= README.git			|| SUMMARY.git			|| INDEX.git			;
+		this.git_path		= README.git_path		|| SUMMARY.git_path		|| INDEX.git_path		;
 
 		if (SUMMARY.raw) {
 			//列表及目录
