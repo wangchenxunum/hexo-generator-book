@@ -211,9 +211,10 @@ class Book {
 			return ;
 		}
 		this.inited = true;
-		const README = this.pages.README || {};
-		const SUMMARY = this.pages.SUMMARY || {};
-		const INDEX = this.pages.index || {};
+		const pages = this.pages;
+		const README = pages.README || {};
+		const SUMMARY = pages.SUMMARY || {};
+		const INDEX = pages.index || {};
 
 		this.path			= urlFn.resolve((README.path || SUMMARY.path || INDEX.path || this.id) + "/", "./");
 		this.url			= README.url			|| SUMMARY.url			|| INDEX.url		|| urlFor(this.path, true);
@@ -225,10 +226,15 @@ class Book {
 		this.image			= README.image			|| SUMMARY.image		|| INDEX.image			;
 		this.copyright		= README.copyright		|| SUMMARY.copyright	|| INDEX.copyright		;
 
-		this.writing		= README.writing		|| SUMMARY.writing		|| INDEX.writing		;
-
 		this.git			= README.git			|| SUMMARY.git			|| INDEX.git			;
 		this.git_path		= README.git_path		|| SUMMARY.git_path		|| INDEX.git_path		;
+
+		for(let k in pages) {
+			if (pages[k].writing) {
+				this.writing = true;
+				break;
+			}
+		}
 
 		if (SUMMARY.raw) {
 			//列表及目录
