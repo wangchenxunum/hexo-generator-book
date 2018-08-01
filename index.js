@@ -2,8 +2,9 @@
 const urlFn = require("url");
 const pathFn = require('path');
 const yfm = require('hexo-front-matter');
+const renderer = require('./renderer');
 
-function urlFor(url ,site) {
+function urlFor(url, site) {
 	if (site) {
 		url = urlFn.resolve(hexo.config.url + "/", url);
 	} else {
@@ -13,15 +14,15 @@ function urlFor(url ,site) {
 }
 
 function encodeHtml(str){
-		var s ="";
-		if(str.length==0)
-		return "";
-		s=str.replace(/&/g,"&gt;");
-		s=s.replace(/</g,"&lt;");
-		s=s.replace(/>/g,"&gt;");
-		s=s.replace(/\"/g,"&quot;");
-		s=s.replace(/\n/g,"<br>");
-		return s;
+	var s ="";
+	if(str.length==0)
+	return "";
+	s=str.replace(/&/g,"&gt;");
+	s=s.replace(/</g,"&lt;");
+	s=s.replace(/>/g,"&gt;");
+	s=s.replace(/\"/g,"&quot;");
+	s=s.replace(/\n/g,"<br>");
+	return s;
 }
 
 
@@ -187,7 +188,15 @@ class Book {
 			let content = file.read();
 			[stats, content] = await Promise.all([stats, content]);
 			const data = yfm(content);
-			data.content = (await hexo.render.render({text: data._content, engine:"markdown"})).replace(/(href="[^\:\/\"][^\:\"]+\.)md((?:[?#][^"]*)?")/gi, "$1html$2")
+			data.content = (await hexo.render.render({
+				text: data._content,
+				engine:"markdown"
+			}, {
+				highlight: null,
+				renderer: renderer(),
+				renderTex: hexo.config.render && hexo.config.render.tex || data.render &&  data.render.flowchart,
+			}))
+				.replace(/(href="[^\:\/\"][^\:\"]+\.)md((?:[?#][^"]*)?")/gi, "$1html$2")
 			data.source = file.path;
 			data.raw = content;
 			data.id = path.replace(/\.md/,"");
